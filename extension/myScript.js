@@ -25,7 +25,7 @@ function httpGet(input, type, data) {
 	var page = (type=="url")? decode(input) : input;
 	var theUrl = server + contents + page;
 	theUrl = theUrl.replace("&", "^");
-	
+
 	//console.log("Type: " + type + " : " + page);
 
 	fetch(theUrl)
@@ -42,7 +42,7 @@ function httpGet(input, type, data) {
 			}
 			data.appendChild(btn);
 		});
-	
+
 }
 
 /**
@@ -91,7 +91,7 @@ function decode(code) {
 	res = res.replace(end2, "");
 
 	return res;
-}  
+}
 
 /**
  * Receive each Facebook post and analyze texts, urls, pics for validity.
@@ -99,7 +99,7 @@ function decode(code) {
  *
  */
 setInterval(function() {
-	
+
 	var test = document.getElementsByClassName('_4-u2 mbm _5v3q _4-u8');
 
 	for(var i=0; i<test.length; i++) {
@@ -123,13 +123,13 @@ setInterval(function() {
 				httpGet(linked.querySelector('a').href, "url", data);
 			}
 
-	
+
 			var link = test[i].querySelector('._5pbx.userContent');
 			if(!processed && link != null && link.querySelector('a') != null && link.querySelector('a').href != null) {
 				processed = true;
-				httpGet(link.href, "url", data);
+				httpGet(link.querySelector('a').href, "url", data);
 			}
-            
+
 
 			var picComment = test[i].querySelector('.uiScaledImageContainer._4-ep');
 			if(!processed && picComment != null && picComment.querySelector('img') != undefined && picComment.querySelector('img').src != null) {
@@ -142,7 +142,7 @@ setInterval(function() {
 				processed = true;
 				httpGet(picPost.querySelector('img').src, "image", data);
 			}
-			
+
 			var picTagged = test[i].querySelector('._4-eo._2t9n');
 			if(!processed && picTagged != null && picTagged.querySelector('._46-h._4-ep') != null && picTagged.querySelector('._46-h._4-ep').querySelector('img') != null) {
 				processed = true;
@@ -163,10 +163,10 @@ setInterval(function() {
 				processed = true;
 				httpGet(text.textContent, "text", data);
 			}
-	
+
 		}
 	}
 
 }, 1000);
-	
+
 })(document);
